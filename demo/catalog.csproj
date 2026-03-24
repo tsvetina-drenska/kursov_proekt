@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="Pages\Book\" />
     <Folder Include="Pages\Movie\" />
-    <Folder Include="Pages\Account\" />
   </ItemGroup>
 
 </Project>
