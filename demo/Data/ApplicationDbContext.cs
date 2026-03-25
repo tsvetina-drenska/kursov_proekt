@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    public DbSet<User> Users { get; set; }
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Rating> Ratings { get; set; }
@@ -19,6 +20,15 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>()
+           .HasIndex(u => u.Username)
+           .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
 
         modelBuilder.Entity<Rating>()
             .HasOne(r => r.Movie)
