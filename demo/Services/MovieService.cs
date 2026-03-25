@@ -1,7 +1,8 @@
-﻿using catalog.Entities;
+﻿
+using catalog.Entities;
 
-namespace catalog.Services;
-
+namespace catalog.Services
+{
     public class MovieService : IMovieService
     {
         private static List<Movie> movies = new List<Movie>();
@@ -22,6 +23,20 @@ namespace catalog.Services;
             movies.Add(movie);
         }
 
+        public void Update(Movie movie)
+        {
+            var existing = movies.FirstOrDefault(m => m.Id == movie.Id);
+
+            if (existing != null)
+            {
+                existing.Title = movie.Title;
+                existing.Director = movie.Director;
+                existing.Year = movie.Year;
+                existing.Description = movie.Description;
+                existing.ImageUrl = movie.ImageUrl;
+            }
+        }
+
         public void Delete(int id)
         {
             var movie = GetById(id);
@@ -31,3 +46,4 @@ namespace catalog.Services;
             }
         }
     }
+}
