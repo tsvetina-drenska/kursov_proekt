@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Начало";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добре дошли в Каталога!</h1>
+    <p>Разгледайте нашите <a asp-controller="Movie" asp-action="Index">филми</a> и <a asp-controller="Book" asp-action="Index">книги</a>.</p>
+    
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="mt-4">
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Регистрирай се</a>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-secondary">Вход</a>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <p>Здравей, @User.Identity.Name!</p>
+        </div>
+    }
+</div>

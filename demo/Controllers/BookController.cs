@@ -6,11 +6,11 @@ namespace catalog.Controllers
 {
     public class BookController : Controller
     {
-        private readonly BookService _bookService;
+        private readonly IBookService _bookService;
 
-        public BookController()
+        public BookController(IBookService bookService)
         {
-            _bookService = new BookService();
+            _bookService = bookService;
         }
 
         // GET: /Book
