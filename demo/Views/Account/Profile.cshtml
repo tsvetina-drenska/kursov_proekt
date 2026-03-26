@@ -1,0 +1,21 @@
+﻿@model catalog.Models.UserDto
+@{
+    ViewData["Title"] = "Моят профил";
+}
+
+<h1>Моят профил</h1>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Потребителско име</dt>
+            <dd class="col-sm-9">@Model.Username</dd>
+
+            <dt class="col-sm-3">Имейл</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Регистриран на</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("dd.MM.yyyy")</dd>
+        </dl>
+    </div>
+</div>
