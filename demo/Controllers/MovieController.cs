@@ -7,12 +7,12 @@ namespace catalog.Controllers
 {
     public class MovieController : Controller
     {
-        private readonly MovieService _movieService;
-        public MovieController()
+        private readonly IMovieService _movieService;
+        public MovieController(IMovieService movieService)
         {
-            _movieService = new MovieService();
+            _movieService = movieService;
         }
-        
+
         // GET: /Movie
         public IActionResult Index()
         {
@@ -57,13 +57,13 @@ namespace catalog.Controllers
         // GET: /Movie/Delete/ID
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Movie movie)
+        public IActionResult Delete(int id)
         {
-            if (ModelState.IsValid)
-            {
-                _movieService.Update(movie);
-                return RedirectToAction(nameof(Index));
+            var movie = _movieService.GetById(id);
 
+            if (movie == null)
+            {
+                return NotFound();
             }
 
             return View(movie);

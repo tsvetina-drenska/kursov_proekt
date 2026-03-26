@@ -5,7 +5,7 @@ using catalog.Entities;
 using catalog.Services;
 using NUnit.Framework;
 
-namespace Catalog.Tests.ControllersTests;
+namespace Catalog.Tests.Controllers.Tests;
 
 [TestFixture]
 public class BookControllerTests
