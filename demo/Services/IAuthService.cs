@@ -8,6 +8,7 @@ namespace catalog.Services
             User? Login(string username, string password); // Вход
             void Register(User user); // Регистрация
             User? GetByUsername(string username); // Търсене на потребител
-        ///
+        //
+        
         }
     }
