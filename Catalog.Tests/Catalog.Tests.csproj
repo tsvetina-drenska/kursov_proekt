@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<!-- Настройка за .NET 8 -->
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
@@ -10,28 +11,32 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<!-- Пакети за тестове и mocking, съвместими с .NET 8 -->
 		<PackageReference Include="coverlet.collector" Version="6.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 		<PackageReference Include="Moq" Version="4.20.72" />
-		<PackageReference Include="Moq.EntityFrameworkCore" Version="7.0.0" />
+		<PackageReference Include="Moq.EntityFrameworkCore" Version="8.0.0" />
 		<PackageReference Include="NUnit" Version="3.14.0" />
 		<PackageReference Include="NUnit.Analyzers" Version="3.9.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<!-- Използване на NUnit namespace -->
 		<Using Include="NUnit.Framework" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<!-- Папки за тестови класове -->
 		<Folder Include="Services.Tests\" />
 		<Folder Include="Repositories.Tests\" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\demo\catalog.csproj" />
+		<!-- Препратка към основния проект catalog.csproj -->
+		<ProjectReference Include="..\catalog\catalog.csproj" />
 	</ItemGroup>
 
 </Project>
