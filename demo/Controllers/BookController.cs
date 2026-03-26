@@ -8,7 +8,7 @@ namespace catalog.Controllers
     {
         private readonly BookService _bookService;
 
-        public BookController()
+        public BookController(IBookService bookService)
         {
             _bookService = new BookService();
         }

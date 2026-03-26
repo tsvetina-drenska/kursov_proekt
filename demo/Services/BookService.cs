@@ -2,7 +2,7 @@
 
 namespace catalog.Services;
 
-    public class BookService
+    public class BookService : IBookService
     {
         private static List<Book> books = new List<Book>();
 
