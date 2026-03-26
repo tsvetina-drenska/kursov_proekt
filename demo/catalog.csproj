@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Book\" />
-    <Folder Include="Pages\Movie\" />
+    <Folder Include="Views\Book\" />
+    <Folder Include="Views\Movie\" />
   </ItemGroup>
 
 </Project>
