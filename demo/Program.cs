@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 // Конфигурация на Entity Framework с MySQL
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySQL(connectionString)); 
+    options.UseMySQL(connectionString));
 
 // Регистриране на репозиторита
 //builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -20,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 // Регистриране на услуги
-//builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IBookService, BookService>();
 

@@ -14,7 +14,7 @@ public class BookControllerTests
     private BookController _controller;
     private List<Book> _testBooks;
 
-    // [SetUp] се изпълнява преди всеки тест (като Initialize)
+    
     [SetUp]
     public void SetUp()
     {
@@ -28,7 +28,7 @@ public class BookControllerTests
         };
     }
 
-    // [TearDown] се изпълнява след всеки тест (като Cleanup)
+    
     [TearDown]
     public void TearDown()
     {
