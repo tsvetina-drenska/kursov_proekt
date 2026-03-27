@@ -1,0 +1,28 @@
+﻿@model catalog.Entities.Book
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Заглавие</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+
+        <dt class="col-sm-2">Автор</dt>
+        <dd class="col-sm-10">@Model.Author</dd>
+
+        <dt class="col-sm-2">Година</dt>
+        <dd class="col-sm-10">@Model.Year</dd>
+
+        <dt class="col-sm-2">Описание</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактирай</a>
+    <a asp-action="Index" class="btn btn-secondary">Обратно</a>
+</div>

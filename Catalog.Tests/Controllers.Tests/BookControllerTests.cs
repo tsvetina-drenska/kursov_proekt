@@ -60,4 +60,55 @@ public class BookControllerTests
         Assert.That(model.Count, Is.EqualTo(2));
     }
 
+    [Test]
+    public void Details_ExistingId_ReturnsViewWithBook()
+    {
+        // Arrange
+        _mockBookService.Setup(s => s.GetById(1))
+            .Returns(_testBooks.First(b => b.Id == 1));
+
+        // Act
+        var result = _controller.Details(1);
+
+        // Assert
+        var viewResult = result as ViewResult;
+        Assert.That(viewResult, Is.Not.Null);
+
+        var model = viewResult.Model as Book;
+        Assert.That(model, Is.Not.Null);
+        Assert.That(model.Title, Is.EqualTo("Book 1"));
+    }
+
+    [Test]
+    public void Details_NonExistingId_ReturnsNotFound()
+    {
+        // Act
+        var result = _controller.Details(999);
+
+        // Assert
+        Assert.That(result, Is.InstanceOf<NotFoundResult>());
+    }
+
+    [Test]
+    public void Create_Post_ValidBook_RedirectsToIndex()
+    {
+        // Arrange
+        var newBook = new Book { Title = "New Book", Author = "New Author", Year = 2023 };
+        _mockBookService.Setup(s => s.Add(It.IsAny<Book>()))
+            .Callback<Book>(b => _testBooks.Add(b));
+        _mockBookService.Setup(s => s.GetAll())
+            .Returns(_testBooks);
+
+        // Act
+        var result = _controller.Create(newBook);
+
+        // Assert
+        var redirectResult = result as RedirectToActionResult;
+        Assert.That(redirectResult, Is.Not.Null);
+        Assert.That(redirectResult.ActionName, Is.EqualTo("Index"));
+
+        // Проверка дали е добавено
+        Assert.That(_testBooks.Count, Is.EqualTo(3));
+        _mockBookService.Verify(s => s.Add(It.Is<Book>(x => x.Title == "New Book")), Times.Once);
+    }
 }

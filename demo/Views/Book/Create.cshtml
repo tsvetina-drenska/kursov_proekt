@@ -1,0 +1,85 @@
+﻿@model catalog.Entities.Book
+@{
+    ViewData["Title"] = "Добави книга";
+}
+
+<h1>Добави нова книга</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Заглавие</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Author" class="form-label">Автор</label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Year" class="form-label">Година</label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label">Описание</label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" value="Запази" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Отказ</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+@if (User?.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5>⭐ Оцени тази книга</h5>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Rating" asp-action="AddBookRating" method="post">
+                <input type="hidden" name="bookId" value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Оценка (1 до 5 звезди):</label>
+                    <select name="value" class="form-select" required>
+                        <option value="">-- Избери оценка --</option>
+                        <option value="1">⭐ 1 звезда</option>
+                        <option value="2">⭐⭐ 2 звезди</option>
+                        <option value="3">⭐⭐⭐ 3 звезди</option>
+                        <option value="4">⭐⭐⭐⭐ 4 звезди</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 звезди</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Коментар (по желание):</label>
+                    <textarea name="comment" class="form-control" rows="3" placeholder="Сподели мнението си..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    📝 Изпрати оценка
+                </button>
+            </form>
+        </div>
+    </div>
+}

@@ -1,0 +1,30 @@
+﻿@model catalog.Entities.Book
+@{
+    ViewData["Title"] = "Изтрий книга";
+}
+
+<h1>Изтриване на книга</h1>
+
+<div class="alert alert-danger">
+    <h3>Сигурни ли сте, че искате да изтриете тази книга?</h3>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Заглавие</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+
+        <dt class="col-sm-2">Автор</dt>
+        <dd class="col-sm-10">@Model.Author</dd>
+
+        <dt class="col-sm-2">Година</dt>
+        <dd class="col-sm-10">@Model.Year</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Потвърди изтриване" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Обратно</a>
+    </form>
+</div>
