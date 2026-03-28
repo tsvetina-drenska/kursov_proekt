@@ -75,6 +75,51 @@ namespace catalog.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: /Book/Edit/ID
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var book = _bookService.GetById(id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
+        // POST: /Book/Edit/ID
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Book book)
+        {
+            if (id != book.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Намираме съществуващата книга
+                var existingBook = _bookService.GetById(id);
+                if (existingBook != null)
+                {
+                    // Обновяваме данните
+                    existingBook.Title = book.Title;
+                    existingBook.Author = book.Author;
+                    existingBook.Year = book.Year;
+                    existingBook.Description = book.Description;
+                    existingBook.ImageUrl = book.ImageUrl;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(book);
+        }
+
+
 
     }
 

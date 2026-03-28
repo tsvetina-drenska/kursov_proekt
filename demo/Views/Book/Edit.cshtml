@@ -1,15 +1,16 @@
 ﻿@model catalog.Entities.Book
 @{
-    ViewData["Title"] = "Добави книга";
+    ViewData["Title"] = "Редактирай книга";
 }
 
-<h1>Добави нова книга</h1>
+<h1>Редактирай книга</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
 
             <div class="mb-3">
                 <label asp-for="Title" class="form-label">Заглавие</label>
@@ -48,4 +49,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

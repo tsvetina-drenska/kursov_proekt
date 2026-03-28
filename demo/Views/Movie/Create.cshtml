@@ -1,9 +1,9 @@
-﻿@model catalog.Entities.Book
+﻿@model catalog.Entities.Movie
 @{
-    ViewData["Title"] = "Добави книга";
+    ViewData["Title"] = "Добави филм";
 }
 
-<h1>Добави нова книга</h1>
+<h1>Добави нов филм</h1>
 
 <hr />
 <div class="row">
@@ -18,9 +18,9 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Author" class="form-label">Автор</label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
+                <label asp-for="Director" class="form-label">Режисьор</label>
+                <input asp-for="Director" class="form-control" />
+                <span asp-validation-for="Director" class="text-danger"></span>
             </div>
 
             <div class="mb-3">

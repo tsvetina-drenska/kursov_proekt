@@ -1,34 +1,34 @@
-﻿@model List<catalog.Entities.Book>
+﻿@model List<catalog.Entities.Movie>
 @{
-    ViewData["Title"] = "Книги";
+    ViewData["Title"] = "Филми";
 }
 
-<h1>Книги</h1>
+<h1>Филми</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Добави книга</a>
+    <a asp-action="Create" class="btn btn-primary">Добави филм</a>
 </p>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Заглавие</th>
-            <th>Автор</th>
+            <th>Режисьор</th>
             <th>Година</th>
             <th>Ср. оценка</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in Model)
+        @foreach (var movie in Model)
         {
             <tr>
-                <td>@book.Title</td>
-                <td>@book.Author</td>
-                <td>@book.Year</td>
+                <td>@movie.Title</td>
+                <td>@movie.Director</td>
+                <td>@movie.Year</td>
                 <td>
                     @{
-                        var avg = book.AverageRating;
+                        var avg = movie.AverageRating;
                         var fullStars = (int)Math.Floor(avg);
                     }
                     @for (int i = 1; i <= 5; i++)
@@ -42,12 +42,12 @@
                             <span style="color: #ccc;">★</span>
                         }
                     }
-                    <span class="ms-1">(@book.Ratings.Count)</span>
+                    <span class="ms-1">(@movie.Ratings.Count)</span>
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-info">Детайли</a>
-                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-info">Детайли</a>
+                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                    <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-sm btn-danger">Изтрий</a>
                 </td>
             </tr>
         }

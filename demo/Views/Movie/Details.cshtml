@@ -1,4 +1,4 @@
-﻿@model catalog.Entities.Book
+﻿@model catalog.Entities.Movie
 @{
     ViewData["Title"] = Model.Title;
 }
@@ -12,7 +12,7 @@
         <dd class="col-sm-10">@Model.Title</dd>
 
         <dt class="col-sm-2">Автор</dt>
-        <dd class="col-sm-10">@Model.Author</dd>
+        <dd class="col-sm-10">@Model.Director</dd>
 
         <dt class="col-sm-2">Година</dt>
         <dd class="col-sm-10">@Model.Year</dd>
@@ -31,11 +31,11 @@
 {
     <div class="card mt-4">
         <div class="card-header bg-primary text-white">
-            <h5>⭐ Оцени тази книга</h5>
+            <h5>⭐ Оцени този филм</h5>
         </div>
         <div class="card-body">
-            <form asp-controller="Rating" asp-action="AddBookRating" method="post">
-                <input type="hidden" name="bookId" value="@Model.Id" />
+            <form asp-controller="Rating" asp-action="AddMovieRating" method="post">
+                <input type="hidden" name="movieId" value="@Model.Id" />
 
                 <div class="mb-3">
                     <label class="form-label">Оценка (1 до 5 звезди):</label>
@@ -60,5 +60,4 @@
             </form>
         </div>
     </div>
-
 }

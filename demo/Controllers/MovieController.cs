@@ -80,6 +80,51 @@ namespace catalog.Controllers
 
         }
 
+        // GET: /Movie/Edit/ID
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var movie = _movieService.GetById(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            return View(movie);
+        }
+
+        // POST: /Movie/Edit/ID
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Movie movie)
+        {
+            if (id != movie.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Намираме съществуващия филм
+                var existingMovie = _movieService.GetById(id);
+                if (existingMovie != null)
+                {
+                    // Обновяваме данните
+                    existingMovie.Title = movie.Title;
+                    existingMovie.Director = movie.Director;
+                    existingMovie.Year = movie.Year;
+                    existingMovie.Description = movie.Description;
+                    existingMovie.ImageUrl = movie.ImageUrl;
+
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(movie);
+        }
+
     }
 
 }
