@@ -52,7 +52,7 @@ public class AccountController : Controller
         // Регистрация
         _authService.Register(user);
 
-        return RedirectToAction(nameof(Login));
+        return RedirectToAction("Login", "Account");
     }
 
     // GET: /Account/Login
@@ -72,6 +72,7 @@ public class AccountController : Controller
             ViewBag.Error = "Моля, въведете потребителско име и парола";
             return View();
         }
+
 
         var user = _authService.Login(username, password);
 

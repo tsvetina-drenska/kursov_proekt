@@ -1,33 +1,54 @@
-﻿using catalog.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using catalog.Data;
+using catalog.Entities;
 
 namespace catalog.Services;
 
-    public class BookService : IBookService
+public class BookService : IBookService
+{
+    private readonly ApplicationDbContext _context;
+
+    public BookService(ApplicationDbContext context)
     {
-        private static List<Book> books = new List<Book>();
+        _context = context;
+    }
 
-        public List<Book> GetAll()
-        {
-            return books;
-        }
+    public List<Book> GetAll()
+    {
+        return _context.Books
+            .Include(b => b.Ratings)
+            .ThenInclude(r => r.User)
+            .ToList();
+    }
 
-        public Book? GetById(int id)
-        {
-            return books.FirstOrDefault(b => b.Id == id);
-        }
+    public Book? GetById(int id)
+    {
+        return _context.Books
+            .Include(b => b.Ratings)
+            .ThenInclude(r => r.User)
+            .FirstOrDefault(b => b.Id == id);
+    }
 
-        public void Add(Book book)
-        {
-            book.Id = books.Count + 1;
-            books.Add(book);
-        }
+    public void Add(Book book)
+    {
+        book.CreatedAt = DateTime.Now;
+        _context.Books.Add(book);
+        _context.SaveChanges();
+    }
 
-        public void Delete(int id)
+    public void Update(Book book)
+    {
+        _context.Books.Update(book);
+        _context.SaveChanges();
+    }
+
+    public void Delete(int id)
+    {
+        var book = _context.Books.Find(id);
+        if (book != null)
         {
-            var book = GetById(id);
-            if (book != null)
-            {
-                books.Remove(book);
-            }
+            _context.Books.Remove(book);
+            _context.SaveChanges();
         }
     }
+}
