@@ -14,10 +14,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(connectionString));
 
-// Регистриране на репозиторита
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-//builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 // Регистриране на услуги
 builder.Services.AddScoped<IAuthService, AuthService>();

@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using catalog.Entities;
+using catalog.Models;
+using catalog.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using catalog.Entities;
-using catalog.Services;
 
 namespace catalog.Controllers;
 
@@ -133,6 +134,14 @@ public class AccountController : Controller
             return NotFound();
         }
 
-        return View(user);
+        var userDto = new UserDto
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            CreatedAt = user.CreatedAt
+        };
+
+        return View(userDto);
     }
 }
