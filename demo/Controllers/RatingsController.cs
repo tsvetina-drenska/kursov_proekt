@@ -1,45 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+﻿using catalog.Data;
 using catalog.Entities;
-using catalog.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace catalog.Controllers;
 
 [Authorize]
 public class RatingController : Controller
 {
-    private readonly IMovieService _movieService;
-    private readonly IBookService _bookService;
+    private readonly ApplicationDbContext _context;
 
-    public RatingController(IMovieService movieService, IBookService bookService)
+    public RatingController(ApplicationDbContext context)
     {
-        _movieService = movieService;
-        _bookService = bookService;
+        _context = context;
     }
 
     // POST: /Rating/AddMovieRating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AddMovieRating(int movieId, int value, string? comment)
+    public async Task<IActionResult> AddMovieRating(int movieId, int value, string? comment)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var movie = _movieService.GetById(movieId);
-
-        if (movie == null)
-        {
-            return NotFound();
-        }
 
         // Проверка дали вече е оценявал
-        var existingRating = movie.Ratings.FirstOrDefault(r => r.UserId == userId);
+        var existingRating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.MovieId == movieId);
+
         if (existingRating != null)
         {
             TempData["ErrorMessage"] = "Вече сте оценили този филм!";
             return RedirectToAction("Details", "Movie", new { id = movieId });
         }
 
-        // Създаване на оценката
+        // Създаване на нова оценка
         var rating = new Rating
         {
             Value = value,
@@ -49,26 +44,23 @@ public class RatingController : Controller
             CreatedAt = DateTime.Now
         };
 
-        movie.Ratings.Add(rating);
+        _context.Ratings.Add(rating);
+        await _context.SaveChangesAsync();
 
-        TempData["SuccessMessage"] = "Благодарим за оценката!";
+        TempData["SuccessMessage"] = "Благодарим за оценката! ⭐";
         return RedirectToAction("Details", "Movie", new { id = movieId });
     }
 
     // POST: /Rating/AddBookRating
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AddBookRating(int bookId, int value, string? comment)
+    public async Task<IActionResult> AddBookRating(int bookId, int value, string? comment)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var book = _bookService.GetById(bookId);
 
-        if (book == null)
-        {
-            return NotFound();
-        }
+        var existingRating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.UserId == userId && r.BookId == bookId);
 
-        var existingRating = book.Ratings.FirstOrDefault(r => r.UserId == userId);
         if (existingRating != null)
         {
             TempData["ErrorMessage"] = "Вече сте оценили тази книга!";
@@ -84,46 +76,34 @@ public class RatingController : Controller
             CreatedAt = DateTime.Now
         };
 
-        book.Ratings.Add(rating);
+        _context.Ratings.Add(rating);
+        await _context.SaveChangesAsync();
 
-        TempData["SuccessMessage"] = "Благодарим за оценката!";
+        TempData["SuccessMessage"] = "Благодарим за оценката! ⭐";
         return RedirectToAction("Details", "Book", new { id = bookId });
     }
 
     // POST: /Rating/DeleteRating/ID
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult DeleteRating(int ratingId)
+    public async Task<IActionResult> DeleteRating(int ratingId)
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-        // Търсим във филмите
-        var allMovies = _movieService.GetAll();
-        foreach (var movie in allMovies)
+        var rating = await _context.Ratings
+            .FirstOrDefaultAsync(r => r.Id == ratingId && r.UserId == userId);
+
+        if (rating != null)
         {
-            var rating = movie.Ratings.FirstOrDefault(r => r.Id == ratingId && r.UserId == userId);
-            if (rating != null)
-            {
-                movie.Ratings.Remove(rating);
-                TempData["SuccessMessage"] = "Оценката беше премахната.";
-                return RedirectToAction("Details", "Movie", new { id = movie.Id });
-            }
+            _context.Ratings.Remove(rating);
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Оценката беше премахната.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Оценката не беше намерена.";
         }
 
-        // Търсим в книгите
-        var allBooks = _bookService.GetAll();
-        foreach (var book in allBooks)
-        {
-            var rating = book.Ratings.FirstOrDefault(r => r.Id == ratingId && r.UserId == userId);
-            if (rating != null)
-            {
-                book.Ratings.Remove(rating);
-                TempData["SuccessMessage"] = "Оценката беше премахната.";
-                return RedirectToAction("Details", "Book", new { id = book.Id });
-            }
-        }
-
-        TempData["ErrorMessage"] = "Оценката не беше намерена.";
         return RedirectToAction("Index", "Home");
     }
 }

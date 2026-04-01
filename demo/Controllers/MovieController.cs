@@ -115,7 +115,6 @@ namespace catalog.Controllers
                     existingMovie.Director = movie.Director;
                     existingMovie.Year = movie.Year;
                     existingMovie.Description = movie.Description;
-                    existingMovie.ImageUrl = movie.ImageUrl;
 
                 }
 

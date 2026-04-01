@@ -119,5 +119,5 @@ SELECT 'Книги:', COUNT(*) FROM Books
 UNION ALL
 SELECT 'Оценки:', COUNT(*) FROM Ratings;
 
-Select * from books;
-
+use filmbookcatalog;
+select * from movies;

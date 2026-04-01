@@ -110,7 +110,6 @@ namespace catalog.Controllers
                     existingBook.Author = book.Author;
                     existingBook.Year = book.Year;
                     existingBook.Description = book.Description;
-                    existingBook.ImageUrl = book.ImageUrl;
                 }
 
                 return RedirectToAction(nameof(Index));

@@ -61,3 +61,47 @@
         </div>
     </div>
 }
+
+@* Секция с всички коментари *@
+@if (Model.Ratings != null && Model.Ratings.Any())
+{
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5>💬 Всички мнения (@Model.Ratings.Count)</h5>
+        </div>
+        <div class="card-body">
+            @foreach (var rating in Model.Ratings.OrderByDescending(r => r.CreatedAt))
+            {
+                <div class="border-bottom pb-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= rating.Value)
+                                {
+                                    <span style="color: #ffc107;">★</span>
+                                }
+                                else
+                                {
+                                    <span style="color: #ccc;">★</span>
+                                }
+                            }
+                            <span class="ms-2 fw-bold">@(rating.User?.Username ?? "анонимен")</span>
+                        </div>
+                        <small class="text-muted">@rating.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                    </div>
+                    @if (!string.IsNullOrEmpty(rating.Comment))
+                    {
+                        <p class="mt-2 mb-0">@rating.Comment</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle me-2"></i> Все още няма коментари за тази книга. Бъди първият!
+    </div>
+}
