@@ -31,7 +31,6 @@
 	<ItemGroup>
 		<!-- Папки за тестови класове -->
 		<Folder Include="Services.Tests\" />
-		<Folder Include="Repositories.Tests\" />
 	</ItemGroup>
 
 	<ItemGroup>
