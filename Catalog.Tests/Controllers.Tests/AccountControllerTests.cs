@@ -5,6 +5,7 @@ using System.Security.Claims;
 using catalog.Controllers;
 using catalog.Entities;
 using catalog.Services;
+using catalog.Models;
 using NUnit.Framework;
 
 namespace Catalog.Tests.ControllersTests;
@@ -229,7 +230,7 @@ public class AccountControllerTests
         // Assert
         var viewResult = result as ViewResult;
         Assert.That(viewResult, Is.Not.Null);
-        var model = viewResult.Model as User;
+        var model = viewResult.Model as UserDto;
         Assert.That(model, Is.Not.Null);
         Assert.That(model.Username, Is.EqualTo("testuser"));
     }
