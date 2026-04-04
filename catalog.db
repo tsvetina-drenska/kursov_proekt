@@ -1,0 +1,123 @@
+ALTER DATABASE filmbookcatalog CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Промени кодирането на таблицата Movies
+ALTER TABLE Movies CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Промени кодирането на таблицата Books
+ALTER TABLE Books CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Промени кодирането на таблицата Ratings
+ALTER TABLE Ratings CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Промени кодирането на таблицата Users
+ALTER TABLE Users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Използвай базата данни
+USE filmbookcatalog;
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE Ratings;
+TRUNCATE TABLE Books;
+TRUNCATE TABLE Movies;
+TRUNCATE TABLE Users;
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- 2. ДОБАВЯНЕ НА ПОТРЕБИТЕЛИ
+INSERT INTO Users (Username, Email, PasswordHash, CreatedAt) VALUES
+('ivan_petrov', 'ivan@abv.bg', 'hashed_123', NOW()),
+('maria_dimitrova', 'maria@gmail.com', 'hashed_456', NOW()),
+('georgi_todorov', 'georgi@yahoo.com', 'hashed_789', NOW()),
+('elena_stoyanova', 'elena@abv.bg', 'hashed_101', NOW()),
+('petar_georgiev', 'petar@gmail.com', 'hashed_112', NOW());
+
+
+-- 3. ДОБАВЯНЕ НА ФИЛМИ
+INSERT INTO Movies (Title, Director, Year, Description, ImageUrl, CreatedAt) VALUES
+('The Shawshank Redemption', 'Frank Darabont', 1994, 'Двама затворници създават приятелство в продължение на много години, намирайки утеха и изкупление чрез актове на достойнство.', 'https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtYTViYWU4NjdjMmQ2XkEyXkFqcGdeQXVyNjUwNzk3NDc@._V1_.jpg', NOW()),
+('The Godfather', 'Francis Ford Coppola', 1972, 'Патриархът на мафиотска династия прехвърля контрола на своя неохотен син.', 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', NOW()),
+('Pulp Fiction', 'Quentin Tarantino', 1994, 'Животът на двама убийци, боксьор, гангстер и чифт обирджии се преплита в четири истории за насилие и изкупление.', 'https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', NOW()),
+('The Dark Knight', 'Christopher Nolan', 2008, 'Батман поема риска да изправи закона срещу Жокера, престъпен гений, който иска да разруши Готъм.', 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg', NOW()),
+('Forrest Gump', 'Robert Zemeckis', 1994, 'Историята на човек с увреждания, който присъства на някои от най-важните събития в американската история.', 'https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg', NOW()),
+('Inception', 'Christopher Nolan', 2010, 'Крадец, който краде корпоративни тайни чрез технология за споделяне на сънища, получава обратната задача да вмъкне идея в ума на главен изпълнителен директор.', 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg', NOW()),
+('The Matrix', 'Lana Wachowski, Lilly Wachowski', 1999, 'Хакер научава от мистериозни бунтовници за истинската природа на реалността и ролята си във войната срещу нейните контролери.', 'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', NOW()),
+('Goodfellas', 'Martin Scorsese', 1990, 'Историята на Хенри Хил и живота му в мафията, разказваща годините му от детството до престъпната кариера.', 'https://m.media-amazon.com/images/M/MV5BY2NkZjEzMDgtN2RjYy00YzM1LWI4ZmQtMjIwYjFjNmI3ZGEwXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', NOW()),
+('Fight Club', 'David Fincher', 1999, 'Офис служител и производител на сапун създават подземен боен клуб, който прераства в нещо много по-голямо.', 'https://m.media-amazon.com/images/M/MV5BMmEzNTk2YzgtNjMzZS00NzY1LWJlOTMtZTA4Y2U4M2VkYzliXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', NOW()),
+('The Lord of the Rings: The Fellowship of the Ring', 'Peter Jackson', 2001, 'Скромен хобит от Шир и осем спътника тръгват на мисия да унищожат могъщия Единствен пръстен и да спасят Средната земя.', 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg', NOW());
+
+
+-- 4. ДОБАВЯНЕ НА КНИГИ
+INSERT INTO Books (Title, Author, Year, Description, ImageUrl, CreatedAt) VALUES
+('1984', 'Джордж Оруел', 1949, 'Тоталитарното общество и контролът над мисълта в бъдещето.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/1984first.jpg/330px-1984first.jpg', NOW()),
+('Престъпление и наказание', 'Фьодор Достоевски', 1866, 'Психологически роман за убийство и изкупление.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Crime_and_Punishment.jpg/330px-Crime_and_Punishment.jpg', NOW()),
+('Сто години самота', 'Габриел Гарсия Маркес', 1967, 'Магически реализъм в историята на семейство Буендия.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/One_Hundred_Years_of_Solitude.jpg/330px-One_Hundred_Years_of_Solitude.jpg', NOW()),
+('Война и мир', 'Лев Толстой', 1869, 'Епичен роман за руското общество по време на Наполеоновите войни.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/War_and_Peace.jpg/330px-War_and_Peace.jpg', NOW()),
+('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'Трагичната история на милионера Джей Гетсби и неговата обсебена любов.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/The_Great_Gatsby_Cover_1925.jpg/330px-The_Great_Gatsby_Cover_1925.jpg', NOW()),
+('Анна Каренина', 'Лев Толстой', 1877, 'Трагичната любовна история на Анна Каренина.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Anna_Karenina.jpg/330px-Anna_Karenina.jpg', NOW()),
+('Малкият принц', 'Антоан дьо Сент-Екзюпери', 1943, 'Философска приказка за любовта, приятелството и смисъла на живота.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Le_Petit_Prince.jpg/330px-Le_Petit_Prince.jpg', NOW()),
+('Под игото', 'Иван Вазов', 1894, 'Класически български роман за Априлското въстание.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Pod_igoto.jpg/330px-Pod_igoto.jpg', NOW()),
+('Бай Ганьо', 'Алеко Константинов', 1895, 'Сатиричен портрет на българина през XIX век.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Bai_Ganyo.jpg/330px-Bai_Ganyo.jpg', NOW()),
+('Тютюн', 'Димитър Димов', 1951, 'Психологически роман за любовта и моралния упадък.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Tyutyun.jpg/330px-Tyutyun.jpg', NOW());
+
+
+-- Оценки за филми (MovieId 1-10, UserId 1-5)
+INSERT INTO Ratings (Value, Comment, CreatedAt, UserId, MovieId, BookId) VALUES
+(5, 'Най-добрият филм, който съм гледала!', NOW(), 1, 1, NULL),
+(4, 'Много добър, но малко дълъг.', NOW(), 2, 1, NULL),
+(5, 'Класика!', NOW(), 3, 2, NULL),
+(4, 'Силна история и актьорска игра.', NOW(), 1, 2, NULL),
+(5, 'Таратино е гений!', NOW(), 4, 3, NULL),
+(4, 'Стилен филм, но насилието е много.', NOW(), 2, 3, NULL),
+(5, 'Нолан никога не разочарова.', NOW(), 3, 4, NULL),
+(5, 'Хийт Леджър като Жокера е незабравим.', NOW(), 5, 4, NULL),
+(4, 'Трогателен и забавен.', NOW(), 1, 5, NULL),
+(5, 'Форест Гъмп е любимият ми филм!', NOW(), 2, 5, NULL),
+(5, 'Удивителна визуализация на сънищата.', NOW(), 3, 6, NULL),
+(4, 'Сложен за разбиране, но впечатляващ.', NOW(), 4, 6, NULL),
+(5, 'Революционен за времето си.', NOW(), 5, 7, NULL),
+(4, 'Интересна концепция.', NOW(), 1, 7, NULL),
+(5, 'Мастърпийс на Скорсезе.', NOW(), 2, 8, NULL),
+(4, 'Реалистично представяне на мафията.', NOW(), 3, 8, NULL),
+(4, 'Провокиращ и силен.', NOW(), 4, 9, NULL),
+(5, 'Носеше ми козината!', NOW(), 5, 9, NULL),
+(5, 'Епично начало на трилогията.', NOW(), 1, 10, NULL),
+(5, 'Визуално зашеметяващ.', NOW(), 2, 10, NULL);
+
+-- Оценки за книги (BookId 1-10)
+INSERT INTO Ratings (Value, Comment, CreatedAt, UserId, MovieId, BookId) VALUES
+(5, 'Страшна книга, която те кара да се замислиш.', NOW(), 1, NULL, 1),
+(5, 'Актуална и днес.', NOW(), 3, NULL, 1),
+(4, 'Мрачна, но задължителна.', NOW(), 2, NULL, 1),
+(5, 'Шедьовър на Достоевски.', NOW(), 4, NULL, 2),
+(5, 'Психологията на Расколников е невероятна.', NOW(), 5, NULL, 2),
+(4, 'Тежка за четене, но си струва.', NOW(), 1, NULL, 2),
+(5, 'Магически реализъм в най-чистата му форма.', NOW(), 2, NULL, 3),
+(5, 'Сто години самота промени представата ми за литература.', NOW(), 3, NULL, 3),
+(4, 'Много герои, трудно се следи.', NOW(), 4, NULL, 3),
+(5, 'Епопея, която всеки трябва да прочете.', NOW(), 5, NULL, 4),
+(4, 'Дълга, но стойностна.', NOW(), 1, NULL, 4),
+(5, 'Класика за американската мечта.', NOW(), 2, NULL, 5),
+(4, 'Тъжна история за любов и изгубени идеали.', NOW(), 3, NULL, 5),
+(5, 'Толстой разбира човешката душа.', NOW(), 4, NULL, 6),
+(5, 'Трагична и красива.', NOW(), 5, NULL, 6),
+(5, 'Книга, която топли душата.', NOW(), 1, NULL, 7),
+(5, 'За деца и възрастни.', NOW(), 2, NULL, 7),
+(5, 'Гордост за българската литература.', NOW(), 3, NULL, 8),
+(5, 'Вазов е бащата на българския роман.', NOW(), 4, NULL, 8),
+(4, 'Смешно и сатирично.', NOW(), 5, NULL, 9),
+(5, 'Бай Ганьо е жив и днес.', NOW(), 1, NULL, 9),
+(5, 'Силна психологическа драма.', NOW(), 2, NULL, 10),
+(4, 'Задължително за всеки българин.', NOW(), 3, NULL, 10);
+
+
+-- 6. ПРОВЕРКА НА ДАННИТЕ
+SELECT 'Потребители:' AS 'Таблица', COUNT(*) AS 'Брой' FROM Users
+UNION ALL
+SELECT 'Филми:', COUNT(*) FROM Movies
+UNION ALL
+SELECT 'Книги:', COUNT(*) FROM Books
+UNION ALL
+SELECT 'Оценки:', COUNT(*) FROM Ratings;
+
+use filmbookcatalog;
+select * from movies;

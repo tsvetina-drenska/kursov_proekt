@@ -1,0 +1,55 @@
+﻿@model List<catalog.Entities.Movie>
+@{
+    ViewData["Title"] = "Филми";
+}
+
+<h1>Филми</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Добави филм</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Заглавие</th>
+            <th>Режисьор</th>
+            <th>Година</th>
+            <th>Ср. оценка</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Director</td>
+                <td>@movie.Year</td>
+                <td>
+                    @{
+                        var avg = movie.AverageRating;
+                        var fullStars = (int)Math.Floor(avg);
+                    }
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= fullStars)
+                        {
+                            <span style="color: #ffc107;">★</span>
+                        }
+                        else
+                        {
+                            <span style="color: #ccc;">★</span>
+                        }
+                    }
+                    <span class="ms-1">(@movie.Ratings.Count)</span>
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-info">Детайли</a>
+                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                    <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

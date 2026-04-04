@@ -12,14 +12,15 @@
                     <div class="alert alert-danger">@ViewBag.Error</div>
                 }
 
-                <form method="post">
+                <form asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
                     <div class="mb-3">
-                        <label>Потребителско име</label>
-                        <input type="text" name="username" class="form-control" required />
+                        <label class="form-label">Потребителско име</label>
+                        <input name="username" class="form-control" required />
                     </div>
                     <div class="mb-3">
-                        <label>Парола</label>
-                        <input type="password" name="password" class="form-control" required />
+                        <label class="form-label">Парола</label>
+                        <input name="password" class="form-control" type="password" required />
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Вход</button>
                 </form>

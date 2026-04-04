@@ -1,0 +1,107 @@
+﻿@model catalog.Entities.Movie
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Заглавие</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+
+        <dt class="col-sm-2">Автор</dt>
+        <dd class="col-sm-10">@Model.Director</dd>
+
+        <dt class="col-sm-2">Година</dt>
+        <dd class="col-sm-10">@Model.Year</dd>
+
+        <dt class="col-sm-2">Описание</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редактирай</a>
+    <a asp-action="Index" class="btn btn-secondary">Обратно</a>
+</div>
+
+@if (User?.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5>⭐ Оцени този филм</h5>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Rating" asp-action="AddMovieRating" method="post">
+                <input type="hidden" name="movieId" value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Оценка (1 до 5 звезди):</label>
+                    <select name="value" class="form-select" required>
+                        <option value="">-- Избери оценка --</option>
+                        <option value="1">⭐ 1 звезда</option>
+                        <option value="2">⭐⭐ 2 звезди</option>
+                        <option value="3">⭐⭐⭐ 3 звезди</option>
+                        <option value="4">⭐⭐⭐⭐ 4 звезди</option>
+                        <option value="5">⭐⭐⭐⭐⭐ 5 звезди</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Коментар (по желание):</label>
+                    <textarea name="comment" class="form-control" rows="3" placeholder="Сподели мнението си..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    📝 Изпрати оценка
+                </button>
+            </form>
+        </div>
+    </div>
+}
+
+@* Секция с всички коментари *@
+@if (Model.Ratings != null && Model.Ratings.Any())
+{
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">
+            <h5>💬 Всички мнения (@Model.Ratings.Count)</h5>
+        </div>
+        <div class="card-body">
+            @foreach (var rating in Model.Ratings.OrderByDescending(r => r.CreatedAt))
+            {
+                <div class="border-bottom pb-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= rating.Value)
+                                {
+                                    <span style="color: #ffc107;">★</span>
+                                }
+                                else
+                                {
+                                    <span style="color: #ccc;">★</span>
+                                }
+                            }
+                            <span class="ms-2 fw-bold">@(rating.User?.Username ?? "анонимен")</span>
+                        </div>
+                        <small class="text-muted">@rating.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                    </div>
+                    @if (!string.IsNullOrEmpty(rating.Comment))
+                    {
+                        <p class="mt-2 mb-0">@rating.Comment</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle me-2"></i> Все още няма коментари за тази книга. Бъди първият!
+    </div>
+}

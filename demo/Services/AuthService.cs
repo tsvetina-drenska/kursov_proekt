@@ -1,35 +1,53 @@
-﻿using catalog.Entities;
+﻿using System.Security.Cryptography;
+using System.Text;
+using catalog.Data;
+using catalog.Entities;
 
-namespace catalog.Services
+namespace catalog.Services;
+
+public class AuthService : IAuthService
 {
-    // Сервиз за управление на потребители (логин/регистрация)
-    public class AuthService : IAuthService
+    private readonly ApplicationDbContext _context;
+
+    public AuthService(ApplicationDbContext context)
     {
-        // Списък с потребители 
-        private static List<User> users = new List<User>();
+        _context = context;
+    }
 
-        // Метод за вход
-        public User? Login(string username, string password)
+    public User? Login(string username, string password)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.Username == username);
+
+        if (user != null && VerifyPassword(password, user.PasswordHash))
         {
-            // Търси потребител със съвпадащо име и парола
-            return users.FirstOrDefault(u =>
-                u.Username == username && u.PasswordHash == password);
+            return user;
         }
 
-        // Метод за регистрация
-        public void Register(User user)
-        {
-            // Генерираме ID
-            user.Id = users.Count + 1;
+        return null;
+    }
 
-            // Добавяме потребителя в списъка
-            users.Add(user);
-        }
+    public void Register(User user)
+    {
+        user.PasswordHash = HashPassword(user.PasswordHash);
+        user.CreatedAt = DateTime.Now;
+        _context.Users.Add(user);
+        _context.SaveChanges();
+    }
 
-        // Връща потребител по username
-        public User? GetByUsername(string username)
-        {
-            return users.FirstOrDefault(u => u.Username == username);
-        }
+    public User? GetByUsername(string username)
+    {
+        return _context.Users.FirstOrDefault(u => u.Username == username);
+    }
+
+    private string HashPassword(string password)
+    {
+        using var sha256 = SHA256.Create();
+        var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+        return Convert.ToBase64String(bytes);
+    }
+
+    private bool VerifyPassword(string password, string hash)
+    {
+        return HashPassword(password) == hash;
     }
 }

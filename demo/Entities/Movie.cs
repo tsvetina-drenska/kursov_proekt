@@ -9,7 +9,6 @@ public class Movie
     public string Director { get; set; } = string.Empty;
     public int Year { get; set; }
     public string? Description { get; set; }
-    public string? ImageUrl { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     // Връзка с рейтингите
