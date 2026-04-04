@@ -5,9 +5,12 @@
 
 <h1>Филми</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Добави филм</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Добави филм</a>
+    </p>
+}
 
 <table class="table table-striped">
     <thead>
@@ -46,8 +49,11 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-info">Детайли</a>
-                    <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                    <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                        <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                    }
                 </td>
             </tr>
         }

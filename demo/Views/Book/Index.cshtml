@@ -5,11 +5,14 @@
 
 <h1>Книги</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Добави книга</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Добави книга</a>
+    </p>
+}
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Заглавие</th>
@@ -46,8 +49,11 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-info">Детайли</a>
-                    <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-warning">Редактирай</a>
-                    <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-warning">Редактирай</a>
+                        <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                    }
                 </td>
             </tr>
         }

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using catalog.Entities;
+﻿using catalog.Entities;
 using catalog.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace catalog.Controllers
