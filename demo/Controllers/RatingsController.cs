@@ -3,6 +3,7 @@ using catalog.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 
 namespace catalog.Controllers;
@@ -22,6 +23,13 @@ public class RatingController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddMovieRating(int movieId, int value, string? comment)
     {
+
+        var movie = await _context.Movies.FindAsync(movieId);
+        if (movie == null)
+        {
+            return NotFound();
+        }
+
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         // Проверка дали вече е оценявал
@@ -56,6 +64,12 @@ public class RatingController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddBookRating(int bookId, int value, string? comment)
     {
+        var book = await _context.Books.FindAsync(bookId);
+        if (book == null)
+        {
+            return NotFound();
+        }
+
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         var existingRating = await _context.Ratings
