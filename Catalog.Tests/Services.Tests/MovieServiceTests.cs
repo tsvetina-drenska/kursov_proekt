@@ -91,7 +91,7 @@ namespace Catalog.Tests.Services.Tests
             Assert.That(result, Is.Null);
         }
 
-        // Тест: Add трябва да запише нов филм и да зададе CreatedAt(времето на създаване.).
+        // Тест: Add трябва да запази нов филм и да зададе CreatedAt.
         [Test]
         public void Add_ValidMovie_SavesAndSetsCreatedAt()
         {
@@ -101,7 +101,7 @@ namespace Catalog.Tests.Services.Tests
             // Act: извикваме Add.
             _movieService.Add(movie);
 
-            // Assert: филмът е записан в контекста и CreatedAt е зададен.
+            // Assert: филмът е записан и CreatedAt е зададен.
             var saved = _context.Movies.SingleOrDefault(m => m.Title == "New Movie");
             Assert.That(saved, Is.Not.Null);
             Assert.That(saved!.CreatedAt, Is.Not.EqualTo(default(DateTime)));

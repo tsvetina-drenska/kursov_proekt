@@ -14,7 +14,7 @@ namespace Catalog.Tests.Services.Tests
         // Услугата под тест.
         private MovieService _movieService;
 
-        // Стартира преди всеки тест: инициализира InMemory DB и инстанция на MovieService.
+        // Изпълнява се преди всеки тест: създава нов InMemory DB и инстанция на MovieService.
         [SetUp]
         public void SetUp()
         {
@@ -26,7 +26,7 @@ namespace Catalog.Tests.Services.Tests
             _movieService = new MovieService(_context);
         }
 
-        // Изпълнява се след всеки тест: изчиства и освобождава контекста.
+        // Изпълнява се след всеки тест: изтрива базата и освобождава ресурсите.
         [TearDown]
         public void TearDown()
         {
