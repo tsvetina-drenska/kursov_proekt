@@ -23,11 +23,16 @@ public class RatingController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddMovieRating(int movieId, int value, string? comment)
     {
-
         var movie = await _context.Movies.FindAsync(movieId);
         if (movie == null)
         {
             return NotFound();
+        }
+
+        if (value < 1 || value > 5)
+        {
+            TempData["ErrorMessage"] = "Оценката трябва да бъде между 1 и 5 звезди!";
+            return RedirectToAction("Details", "Movie", new { id = movieId });
         }
 
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
@@ -68,6 +73,12 @@ public class RatingController : Controller
         if (book == null)
         {
             return NotFound();
+        }
+
+        if (value < 1 || value > 5)
+        {
+            TempData["ErrorMessage"] = "Оценката трябва да бъде между 1 и 5 звезди!";
+            return RedirectToAction("Details", "Book", new { id = bookId });
         }
 
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);

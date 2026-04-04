@@ -310,6 +310,34 @@ public class RatingControllerTests
         Assert.That(rating, Is.Not.Null);
         Assert.That(rating.Value, Is.EqualTo(5));
     }
+
+    [Test]
+    public async Task AddBookRating_NegativeValue_ShouldNotAddRating()
+    {
+        // Arrange
+        var invalidValue = -5;
+
+        // Act
+        var result = await _controller.AddBookRating(_testBook.Id, invalidValue, null);
+
+        // Assert
+        var rating = _context.Ratings.FirstOrDefault(r => r.BookId == _testBook.Id);
+        Assert.That(rating, Is.Null);
+    }
+
+    [Test]
+    public async Task AddMovieRating_ValueSix_ShouldNotAddRating()
+    {
+        // Arrange
+        var invalidValue = 6;
+
+        // Act
+        var result = await _controller.AddMovieRating(_testMovie.Id, invalidValue, null);
+
+        // Assert
+        var rating = _context.Ratings.FirstOrDefault(r => r.MovieId == _testMovie.Id);
+        Assert.That(rating, Is.Null, "Оценка с 6 не трябва да се добавя");
+    }
 }
 
 // Помощен клас за TempData
