@@ -10,6 +10,8 @@ public class Movie
     public int Year { get; set; }
     public string? Description { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public string ImageUrl { get; set; }
+
 
     // Връзка с рейтингите
     public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
